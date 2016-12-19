@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Playlist Sharing Site</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="container">
+                <div class="well"  style="background-color:orange;">
+                    <audio id="audioPlayer"  style="width: 100%; height: 100%" controls autoplay>
+                        <source src=@Url.Action("LoadAudio", "Home") type="audio/ogg">
+                        <source src=@Url.Action("LoadAudio", "Home") type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <br />
+                    <div>
+                        <button onclick="document.getElementById('audioPlayer').play()">Play the Audio</button>
+                        <button onclick="document.getElementById('audioPlayer').pause()">Pause the Audio</button>
+                        <button onclick="document.getElementById('audioPlayer').volume += 0.1">Increase Volume</button>
+                        <button onclick="document.getElementById('audioPlayer').volume -= 0.1">Decrease Volume</button>
+                        <button onclick="document.getElementById('audioPlayer').seekable.start(0); console.log(document.getElementById('audioPlayer').seekable.start(0))">Seekable.Start</button>
+                        <button onclick="document.getElementById('audioPlayer').seekable.end(0); console.log(document.getElementById('audioPlayer').seekable.end(0))">Seekable.End</button>
+                        <button onclick="document.getElementById('audioPlayer').currentTime; console.log(document.getElementById('audioPlayer').currentTime)">currentTime</button>
+                        <button onclick="document.getElementById('audioPlayer').played.end(0); console.log(document.getElementById('audioPlayer').played.end(0))">.played.end(0)</button>
+                        <button onclick="document.getElementById('audioPlayer').clientWidth = '100%'">playerWidth = 100%</button>
+                        <button onclick="document.getElementById('audioPlayer').clientHeight = '100%'">playerHeight = 100%</button>
+                        
+                        <script>
+
+                            var mediaElement = document.getElementById('audioPlayer');
+                            //mediaElement.seekable.start(0);  // Returns the starting time (in seconds)
+                            //mediaElement.seekable.end(0);    // Returns the ending time (in seconds)
+                            //mediaElement.currentTime = 122; // Seek to 122 seconds
+                            //mediaElement.played.end(0);      // Returns the number of seconds the browser has played
+
+                            mediaElement.addEventListener('playing', function () {
+                                console.log(mediaElement.msRealTime);
+                            }, false);
+                            
+                        </script>
+                    </div>
+                    <div>
+                        <div id="playButton">play</div>
+                        <div id="pauseButton">pause</div>
+                        <div id="playButton"></div>
+                        <div id="playButton"></div>
+                        <div id="playButton"></div>
+                    </div>
+                    <video controls>
+                        <source src="https://www.youtube.com/watch?v=jWObTfiovD8&t=4244s" type="video/mpeg">
+                        <source src="https://www.youtube.com/watch?v=jWObTfiovD8&t=4244s" type="audio/x-m4a">
+                    </video>
+                </div>
+            </div>
+            
+            
+            <p class="pull-right">&copy; @DateTime.Now.Year - Playlist Sharing Site</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
