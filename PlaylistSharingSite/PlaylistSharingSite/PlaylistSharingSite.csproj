@@ -185,9 +185,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Lib\Helpers\AudioInfo.cs" />
-    <Compile Include="Lib\Helpers\VideoInfo.cs" />
-    <Compile Include="Lib\MediaInfoDLL.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\FilePath.cs" />
     <Compile Include="Models\FileType.cs" />
@@ -215,13 +212,24 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jPlayer\css\jplayer.blue.monday.css" />
+    <Content Include="Content\jPlayer\css\jplayer.blue.monday.min.css" />
+    <Content Include="Content\jPlayer\image\jplayer.blue.monday.jpg" />
+    <Content Include="Content\jPlayer\image\jplayer.blue.monday.seeking.gif" />
+    <Content Include="Content\jPlayer\image\jplayer.blue.monday.video.play.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery.jplayer.js" />
+    <Content Include="Scripts\jPlayer\dist\jquery.jplayer.js" />
+    <Content Include="Scripts\jPlayer\dist\jquery.jplayer.min.js" />
+    <Content Include="Scripts\jPlayer\dist\jquery.jplayer.swf" />
+    <Content Include="Scripts\jPlayer\lib\jquery.min.js" />
+    <None Include="Scripts\jquery-1.11.1.intellisense.js" />
+    <Content Include="Scripts\jquery-1.11.1.js" />
+    <Content Include="Scripts\jquery-1.11.1.min.js" />
     <Content Include="x64\MediaInfo.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -231,9 +239,7 @@
     <Content Include="MediaInfoDotNet.dll.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-1.11.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -280,6 +286,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -287,7 +294,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

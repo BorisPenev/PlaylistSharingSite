@@ -2,11 +2,39 @@
 <html>
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Playlist Sharing Site</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@Scripts.Render("~/bundles/jPlayer");*@
+    
+    <script>
+        $(document).ready(function () {
+            $player = $("#jquery_jplayer_1");
+            jPlayer_method = $player.jPlayer;
+            $player.jPlayer({
+                ready: function () {
+                    jPlayer_method.call( $player, "setMedia", {
+                        title: "Bubble",
+                        m4a: '@Url.Action("LoadAudio", "Home")',
+                        oga: '@Url.Action("LoadAudio", "Home")'
+                    });
+                },
+                swfPath: "../../dist/",
+                supplied: "m4a, oga",
+                wmode: "window",
+                useStateClassSkin: true,
+                autoBlur: false,
+                smoothPlayBar: true,
+                keyEnabled: true,
+                remainingDuration: true,
+                toggleDuration: true
+            });
+        });
+    </script>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -40,44 +68,46 @@
                         <source src=@Url.Action("LoadAudio", "Home") type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
-                    <br />
-                    <div>
-                        <button onclick="document.getElementById('audioPlayer').play()">Play the Audio</button>
-                        <button onclick="document.getElementById('audioPlayer').pause()">Pause the Audio</button>
-                        <button onclick="document.getElementById('audioPlayer').volume += 0.1">Increase Volume</button>
-                        <button onclick="document.getElementById('audioPlayer').volume -= 0.1">Decrease Volume</button>
-                        <button onclick="document.getElementById('audioPlayer').seekable.start(0); console.log(document.getElementById('audioPlayer').seekable.start(0))">Seekable.Start</button>
-                        <button onclick="document.getElementById('audioPlayer').seekable.end(0); console.log(document.getElementById('audioPlayer').seekable.end(0))">Seekable.End</button>
-                        <button onclick="document.getElementById('audioPlayer').currentTime; console.log(document.getElementById('audioPlayer').currentTime)">currentTime</button>
-                        <button onclick="document.getElementById('audioPlayer').played.end(0); console.log(document.getElementById('audioPlayer').played.end(0))">.played.end(0)</button>
-                        <button onclick="document.getElementById('audioPlayer').clientWidth = '100%'">playerWidth = 100%</button>
-                        <button onclick="document.getElementById('audioPlayer').clientHeight = '100%'">playerHeight = 100%</button>
-                        
-                        <script>
-
-                            var mediaElement = document.getElementById('audioPlayer');
-                            //mediaElement.seekable.start(0);  // Returns the starting time (in seconds)
-                            //mediaElement.seekable.end(0);    // Returns the ending time (in seconds)
-                            //mediaElement.currentTime = 122; // Seek to 122 seconds
-                            //mediaElement.played.end(0);      // Returns the number of seconds the browser has played
-
-                            mediaElement.addEventListener('playing', function () {
-                                console.log(mediaElement.msRealTime);
-                            }, false);
-                            
-                        </script>
+                </div>
+                <br />
+                <div id="jquery_jplayer_1" class="jp-jplayer"></div>
+                <div id="jp_container_1" class="jp-audio" role="application" aria-label="media player">
+                    <div class="jp-type-single">
+                        <div class="jp-gui jp-interface">
+                            <div class="jp-controls">
+                                <button class="jp-play" role="button" tabindex="0">play</button>
+                                <button class="jp-stop" role="button" tabindex="0">stop</button>
+                            </div>
+                            <div class="jp-progress">
+                                <div class="jp-seek-bar">
+                                    <div class="jp-play-bar"></div>
+                                </div>
+                            </div>
+                            <div class="jp-volume-controls">
+                                <button class="jp-mute" role="button" tabindex="0">mute</button>
+                                <button class="jp-volume-max" role="button" tabindex="0">max volume</button>
+                                <div class="jp-volume-bar">
+                                    <div class="jp-volume-bar-value"></div>
+                                </div>
+                            </div>
+                            <div class="jp-time-holder">
+                                <div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>
+                                <div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>
+                                <div class="jp-toggles">
+                                    <button class="jp-repeat" role="button" tabindex="0">repeat</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="jp-details">
+                            <div class="jp-title" aria-label="title">
+                                Add song Title
+                            </div>
+                        </div>
+                        <div class="jp-no-solution">
+                            <span>Update Required</span>
+                            To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                        </div>
                     </div>
-                    <div>
-                        <div id="playButton">play</div>
-                        <div id="pauseButton">pause</div>
-                        <div id="playButton"></div>
-                        <div id="playButton"></div>
-                        <div id="playButton"></div>
-                    </div>
-                    <video controls>
-                        <source src="https://www.youtube.com/watch?v=jWObTfiovD8&t=4244s" type="video/mpeg">
-                        <source src="https://www.youtube.com/watch?v=jWObTfiovD8&t=4244s" type="audio/x-m4a">
-                    </video>
                 </div>
             </div>
             
@@ -86,8 +116,6 @@
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
 </body>
 </html>

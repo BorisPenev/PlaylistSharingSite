@@ -17,10 +17,14 @@ namespace PlaylistSharingSite.Controllers
 
         public async System.Threading.Tasks.Task<ActionResult> LoadAudio()
         {
-            TagLib.File file = TagLib.File.Create("E:\\downloads\\videoplayback.m4a");
-            file.
+            string uri = "E:\\downloads\\videoplayback.m4a";
+            TagLib.File file = null;
+            System.IO.FileInfo file_info = new System.IO.FileInfo(uri);
+
+            file = TagLib.File.Create(uri);
+            var duration = file.Properties.Duration;
             //var mediaFile = new MediaFile("E:\\downloads\\videoplayback.m4a");
-            
+
             //var mi = new MediaInfo();
             //mi.Open(@"E:\downloads\videoplayback.m4a");
             //var audio = mediaFile.Audio;
