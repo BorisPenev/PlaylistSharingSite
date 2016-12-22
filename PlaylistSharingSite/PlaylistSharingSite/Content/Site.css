@@ -27,7 +27,8 @@ textarea {
     position: fixed;
     width: 100%;
     bottom: 0;
-    background-color: #ff0000;
+    color: orange;
+    background-color:darkgrey ;
 }
 
 .info {

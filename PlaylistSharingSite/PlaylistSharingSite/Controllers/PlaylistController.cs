@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -22,9 +23,9 @@ namespace PlaylistSharingSite.Controllers
                 if (database.Playlists.Any())
                 {
                     playlists = database.Playlists
-                    .Include(u => u.User)
-                    .Include(u => u.AudioFiles)
-                    .ToList();
+                        .Include(u => u.User)
+                        .Include(u => u.AudioFiles)
+                        .ToList();
                 }
                 else
                 {
@@ -34,8 +35,9 @@ namespace PlaylistSharingSite.Controllers
 
             return View(playlists);
         }
+
         // GET: Playlist
-        
+
         public ActionResult Create()
         {
             return View();
@@ -55,12 +57,12 @@ namespace PlaylistSharingSite.Controllers
 
 
                     var playlist = new Playlist(authorId, model.Title);
-                    
+
 
                     // Save article in DB
                     database.Playlists.Add(playlist);
                     database.SaveChanges();
-                    
+
 
                     return RedirectToAction("UploadSongs", "File", new {playlistId = playlist.Id});
                 }
@@ -101,7 +103,7 @@ namespace PlaylistSharingSite.Controllers
                     database.SaveChanges();
 
 
-                    return RedirectToAction("UploadSongs", "File", new { playlistId = playlist.Id });
+                    return RedirectToAction("UploadSongs", "File", new {playlistId = playlist.Id});
                 }
             }
             return View(model);
@@ -128,6 +130,54 @@ namespace PlaylistSharingSite.Controllers
             }
 
             return View(playlist);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            using (var db = new PlaylistSharingDbContext())
+            {
+                var playlist = db.Playlists.FirstOrDefault(p => p.Id == id);
+
+                // Check if playlist exists
+                if (playlist == null)
+                {
+                    return HttpNotFound();
+                }
+
+               
+                if (IsUserAuthorizedToEdit(playlist))
+                {
+                    foreach (var song in playlist.AudioFiles)
+                    {
+                        var serverPath = Path.Combine(Server.MapPath("~/Users"), playlist.UserId, song.NameOnServer);
+                        if (System.IO.File.Exists(serverPath))
+                        {
+                            System.IO.File.Delete(serverPath);
+                        }
+                    }
+                    playlist.AudioFiles.Clear();
+                    db.Playlists.Remove(playlist);
+                }
+
+                // Save
+                db.SaveChanges();
+
+                return RedirectToAction("List", "Playlist");
+            }
+        }
+
+        private bool IsUserAuthorizedToEdit(Playlist playlist)
+        {
+            bool isAdmin = this.User.IsInRole("Admin");
+            bool isAuthor = playlist.IsPlaylistAuthor(this.User.Identity.Name);
+
+            return isAdmin || isAuthor;
         }
     }
 }

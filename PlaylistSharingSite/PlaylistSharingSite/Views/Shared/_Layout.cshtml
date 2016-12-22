@@ -42,11 +42,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                @using Microsoft.AspNet.Identity
-                @if (Request.IsAuthenticated)
-                {
-                    <li>@Html.ActionLink("My Songs", "UploadSongs", "File")</li>
-                }
+               <li></li>
             </ul>
             
             @Html.Partial("_LoginPartial")
@@ -56,15 +52,13 @@
     
     <div class="container body-content">
         @RenderBody()
-        <hr />
-       
     </div>
 
     @RenderSection("scripts", required: false)
     
     <footer id="footer">
         @Html.Partial("_jPlayerPartial")
-        <p class="pull-right">&copy; @DateTime.Now.Year - Playlist Sharing Site</p>
+        <p class="pull-right">&copy; @DateTime.Now.Year - Sound Cloud</p>
     </footer>
 </body>
 </html>

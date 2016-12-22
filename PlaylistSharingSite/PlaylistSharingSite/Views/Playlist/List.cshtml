@@ -14,21 +14,20 @@
                         <h2>
                             <span class="glyphicon glyphicon-music"></span>
                             @Html.ActionLink(@playlist.Title, "Details", "Playlist", new {@id = playlist.Id}, null)
+                            @if (User.IsInRole("Admin") || playlist.IsPlaylistAuthor(User.Identity.Name))
+                            {
+                                @Ajax.ActionLink("X", "Delete", "Playlist", new {@id = playlist.Id},
+                                    new AjaxOptions() {HttpMethod = "Post", OnSuccess = "onSuccessDeletePlaylist"},
+                                    new {@class = "btn btn-danger btn-xs pull-right"})
+                            }
                         </h2>
                     </header>
                     <div>
                         <p>
                             Number of Songs: @playlist.AudioFiles.Count
-                        </p>
-                        <p>
-                            <span class="glyphicon glyphicon-play"></span>
-                            <button class="song" data-playlistID="@playlist.Id">Play all Songs</button>
-                            playlistID: @playlist.Id)
-                            @*@Html.ActionLink("Play all Songs", "GetPlayerData", "Home", new { @playlistId = playlist.Id }, new {@class= "btn btn-primary song" })*@
-                           
                             
                             @Ajax.ActionLink("Play Songs", "GetPlayerData", "Home", new { @playlistId = playlist.Id },
-                           new AjaxOptions() {HttpMethod = "Get", OnSuccess = "onSuccess" }, new { @class = "btn btn-primary song" })
+                           new AjaxOptions() {HttpMethod = "Get", OnSuccess = "onSuccess" }, new { @class = "btn btn-primary glyphicon glyphicon-play song" })
                             
                         </p>
                     </div> 
@@ -42,6 +41,11 @@
                                 title: data.title
 
                             }).jPlayer("play");
+                        }
+
+                        function onSuccessDeletePlaylist() {
+
+                            return location.reload(true);
                         }
                     </script>
                     <footer>
@@ -62,4 +66,3 @@
         }
     </div>
 </div>
-<hr />

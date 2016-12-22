@@ -15,8 +15,6 @@
             {
                 <tr>
                     @Html.ActionLink("Add More Songs", "AddSongs", new { @playlistId =  Model.Id}, new {@class= "btn btn-warning btn-xs pull-right" })
-                    @Html.ActionLink("Edit", "Edit", "Playlist", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })*
-                    @Html.ActionLink("Delete", "Delete", "Playlist", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
                 </tr>
             }
             <tr>
@@ -45,6 +43,13 @@
 
                             @Ajax.ActionLink("X", "DeleteSong", "File", new {@playlistId = Model.Id, @songId = file.Id},
                                 new AjaxOptions() {HttpMethod = "Post", OnSuccess = "onSuccess"}, new {@class = "btn btn-danger btn-xs"})
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Ajax.ActionLink("Play", "PlaySong", "Home", new { @playlistId = Model.Id, @songId = file.Id },
+                           new AjaxOptions() { HttpMethod = "Get", OnSuccess = "onSuccessPlaySong" }, new { @class = "glyphicon glyphicon-play song" })
                         </td>
                     }
                 </tr>
