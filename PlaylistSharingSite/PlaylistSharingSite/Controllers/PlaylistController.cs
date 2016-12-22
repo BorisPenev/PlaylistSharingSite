@@ -19,23 +19,29 @@ namespace PlaylistSharingSite.Controllers
             List<Playlist> playlists;
             using (var database = new PlaylistSharingDbContext())
             {
-                playlists = database.Playlists
+                if (database.Playlists.Any())
+                {
+                    playlists = database.Playlists
                     .Include(u => u.User)
                     .Include(u => u.AudioFiles)
                     .ToList();
+                }
+                else
+                {
+                    playlists = new List<Playlist>();
+                }
             }
 
             return View(playlists);
         }
         // GET: Playlist
-        [ValidateAntiForgeryToken]
+        
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create(Playlist model)
         {
             if (ModelState.IsValid)

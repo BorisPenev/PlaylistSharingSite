@@ -40,14 +40,11 @@
                     @if (User.IsInRole("Admin") || Model.IsPlaylistAuthor(User.Identity.Name))
                     {
                         <td>
-                            @*@Html.ActionLink("Edit", "Edit", "Playlist", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
-    @Html.ActionLink("X", "DeleteSong", "File", new { @playlistId = Model.Id , @songId = file.Id}, new { @class = "btn btn-danger btn-xs" })*@
-                            @using (Ajax.BeginForm("DeleteSong", "File", new AjaxOptions() { HttpMethod = "Post" }))
-                            { 
-                                @Ajax.ActionLink("X", "DeleteSong", "File", new { @playlistId = Model.Id, @songId = file.Id },
-                                    new AjaxOptions() { HttpMethod = "Post", OnSuccess = "onSuccess"}, new { @class = "btn btn-danger btn-xs" })
-                            }
-                            
+                                @Ajax.ActionLink("Play", "PlaySong", "Home", new { @playlistId = Model.Id, @songId = file.Id },
+                           new AjaxOptions() { HttpMethod = "Get", OnSuccess = "onSuccessPlaySong" }, new { @class = "glyphicon glyphicon-play song" })
+
+                            @Ajax.ActionLink("X", "DeleteSong", "File", new {@playlistId = Model.Id, @songId = file.Id},
+                                new AjaxOptions() {HttpMethod = "Post", OnSuccess = "onSuccess"}, new {@class = "btn btn-danger btn-xs"})
                         </td>
                     }
                 </tr>
@@ -55,8 +52,19 @@
             </tbody>
         </table>
         <script>
-            var onSuccess = function(returnUrl) {
+            function onSuccess() {
                 return location.reload(true);
+            }
+
+            function onSuccessPlaySong(data) {
+
+                $("#jquery_jplayer_1").jPlayer("setMedia",
+                {
+                    mp3: data.url,
+                    duration: data.duration,
+                    title: data.title
+
+                }).jPlayer("play");
             }
         </script>
     </div>

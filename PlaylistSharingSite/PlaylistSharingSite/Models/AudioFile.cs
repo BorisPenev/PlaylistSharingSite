@@ -17,13 +17,13 @@ namespace PlaylistSharingSite.Models
             this.DateAdded = DateTime.Now;
         }
 
-        public AudioFile(string nameOnServer, string filePath, TagLib.Tag tag, TagLib.Properties properties)
+        public AudioFile(string nameOnServer, string serverPath, TagLib.Tag tag, TagLib.Properties properties)
         {
-            this.NameOnServer = new Guid().ToString();
+            this.NameOnServer = nameOnServer;
             this.Title = tag.Title;
 
             //this.Path = string.Format("/AudioFiles/{0}", tag.Title);
-            this.Path = filePath;
+            this.ServerPath = serverPath;
             this.Duration = properties.Duration;
             this.DateAdded = DateTime.Now;
         }
@@ -34,7 +34,7 @@ namespace PlaylistSharingSite.Models
         [Required]
         public string NameOnServer { get; set; }
 
-        public string Path { get; set; }
+        public string ServerPath { get; set; }
         
         public string Title { get; set; }
 

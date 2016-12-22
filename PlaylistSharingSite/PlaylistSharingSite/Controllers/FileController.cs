@@ -58,12 +58,13 @@ namespace PlaylistSharingSite.Controllers
                         {
                             // Upload to server folder /Users/{user.Id}/fileName
                             var fileName = Path.GetFileName(file.FileName);
-                            var path = Path.Combine(Server.MapPath("~/Users"), this.User.Identity.GetUserId(), fileName);
-                            file.SaveAs(path);
+                            var serverPath = Path.Combine(Server.MapPath("~/Users"), this.User.Identity.GetUserId(), fileName);
+                            file.SaveAs(serverPath);
 
-                            TagLib.File fileDetails = TagLib.File.Create(path);
+                            TagLib.File fileDetails = TagLib.File.Create(serverPath);
                             // populate a song file
-                            var song = new AudioFile(fileName, path, fileDetails.Tag, fileDetails.Properties);
+
+                            var song = new AudioFile(fileName, serverPath, fileDetails.Tag, fileDetails.Properties);
 
                             // Add songs to playlist
                             var playlist = db.Playlists.FirstOrDefault(p => p.Id == model.Id);
@@ -110,9 +111,10 @@ namespace PlaylistSharingSite.Controllers
 
                 if (IsUserAuthorizedToEdit(playlist))
                 {
-                    if (System.IO.File.Exists(song.Path))
+                    var serverPath = Path.Combine(Server.MapPath("~/Users"), playlist.UserId, song.NameOnServer);
+                    if (System.IO.File.Exists(serverPath))
                     {
-                        System.IO.File.Delete(song.Path);
+                        System.IO.File.Delete(serverPath);
                     }
 
                     playlist.AudioFiles.Remove(song);

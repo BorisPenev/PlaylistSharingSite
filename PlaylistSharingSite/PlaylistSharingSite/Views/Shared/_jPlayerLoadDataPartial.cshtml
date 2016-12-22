@@ -4,7 +4,7 @@
         $('.song').click(function (btn) {
 
             console.log(btn);
-            $.getJSON("/Home/GetPlayerData",
+            $.getJSON("/Home/GetPlayerData?playlistId=7",
                 {},
                 function(data) {
                     console.log(data.title);

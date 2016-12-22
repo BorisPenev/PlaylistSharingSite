@@ -1,5 +1,4 @@
-﻿@using System.Data.Entity.Core.Metadata.Edm
-@model List<PlaylistSharingSite.Models.Playlist>
+﻿@model List<PlaylistSharingSite.Models.Playlist>
 @{
     ViewBag.Title = "List";
 }
@@ -26,10 +25,25 @@
                             <button class="song" data-playlistID="@playlist.Id">Play all Songs</button>
                             playlistID: @playlist.Id)
                             @*@Html.ActionLink("Play all Songs", "GetPlayerData", "Home", new { @playlistId = playlist.Id }, new {@class= "btn btn-primary song" })*@
-                            @Html.Partial("_jPlayerLoadDataPartial", new { @playlistId = playlist.Id})
+                           
+                            
+                            @Ajax.ActionLink("Play Songs", "GetPlayerData", "Home", new { @playlistId = playlist.Id },
+                           new AjaxOptions() {HttpMethod = "Get", OnSuccess = "onSuccess" }, new { @class = "btn btn-primary song" })
+                            
                         </p>
                     </div> 
+                    <script>
+                        function onSuccess(data){
 
+                            $("#jquery_jplayer_1").jPlayer("setMedia",
+                            {
+                                mp3: data.url,
+                                duration: data.duration,
+                                title: data.title
+
+                            }).jPlayer("play");
+                        }
+                    </script>
                     <footer>
                         @*<div class="pull-left">
                             @foreach (var tag in article.Tags)

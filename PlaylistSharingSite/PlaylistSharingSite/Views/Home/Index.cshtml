@@ -17,36 +17,6 @@
 
                     }).jPlayer("play");
                 });
-
-            @*var product = {
-                title: "@Model.Title",
-                url: "@Model.Url",
-                duration: "@Model.Duration"
-            };
-            console.log(product);
-            console.log(JSON.stringify(product));
-            $.ajax({
-                type: "GET",
-                ContentType: "application/json; charset=utf-8",
-                data: JSON.stringify(product) ,
-                url: "/Home/LoadAudio/",
-                success: function(data) {
-                    console.log(data.title);
-                    console.log(data.url);
-                    console.log(data.duration);
-
-                    $("#jquery_jplayer_1").jPlayer("setMedia",
-                    {
-                        mp3: data.url,
-                        duration: data.duration,
-                        title:  data.title
-
-                    }).jPlayer("play");
-                },
-                error: function(result) {
-                    alert("Something went wrong when clicking a song!");
-                }
-            });*@
         });
     })
    
