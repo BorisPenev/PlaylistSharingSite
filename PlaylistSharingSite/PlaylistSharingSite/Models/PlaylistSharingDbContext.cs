@@ -12,6 +12,8 @@ namespace PlaylistSharingSite.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
+        public IDbSet<FilePath> ProfilePicturePaths { get; set; }
+        public IDbSet<Playlist> Playlists { get; set; }
 
         public static PlaylistSharingDbContext Create()
         {

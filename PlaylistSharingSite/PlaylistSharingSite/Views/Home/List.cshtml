@@ -1,0 +1,23 @@
+﻿@model List<PlaylistSharingSite.Models.Playlist>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="container">
+    <div class="row">
+        <a class="btn-link song">Some song</a>
+        @foreach (var playlist in Model)
+        {
+            <div class="col-sm-6 text-center text-uppercase">
+                <p>
+                    <h2>
+                        @Html.ActionLink(string.Format($"{playlist.Title} ({playlist.AudioFiles.Count})"),
+                            "List", "Home", null, null)
+                    </h2>
+                </p>
+            </div>
+        }
+    </div>
+</div>
+<hr />

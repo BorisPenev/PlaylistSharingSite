@@ -1,0 +1,63 @@
+﻿@using System.Data.Entity.Core.Common.EntitySql
+@model PlaylistSharingSite.Models.Playlist
+
+@{
+    ViewBag.Title = "Playlist Details";
+}
+
+<div class="container">
+    <div class="row">
+        <h1>Playlist: @Model.Title</h1>
+        
+        <table class="table table-striped table-hover">
+            <thead>
+            @if (User.IsInRole("Admin") || Model.IsPlaylistAuthor(User.Identity.Name))
+            {
+                <tr>
+                    @Html.ActionLink("Add More Songs", "AddSongs", new { @playlistId =  Model.Id}, new {@class= "btn btn-warning btn-xs pull-right" })
+                    @Html.ActionLink("Edit", "Edit", "Playlist", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })*
+                    @Html.ActionLink("Delete", "Delete", "Playlist", new { @id = Model.Id }, new { @class = "btn btn-danger btn-xs" })
+                </tr>
+            }
+            <tr>
+                <th>Title</th>
+                <th>DateAdded</th>
+                <th>Duration</th>
+                @if (User.IsInRole("Admin") || Model.IsPlaylistAuthor(User.Identity.Name))
+                {
+                    <th>Options</th>
+                }
+            </tr>
+            </thead>
+
+            <tbody>
+            @foreach (var file in Model.AudioFiles)
+            {
+                <tr class="btn-link song">
+                    <td>@file.Title</td>
+                    <td>@file.DateAdded</td>
+                    <td>@file.Duration</td>
+                    @if (User.IsInRole("Admin") || Model.IsPlaylistAuthor(User.Identity.Name))
+                    {
+                        <td>
+                            @*@Html.ActionLink("Edit", "Edit", "Playlist", new { @id = Model.Id }, new { @class = "btn btn-success btn-xs" })
+    @Html.ActionLink("X", "DeleteSong", "File", new { @playlistId = Model.Id , @songId = file.Id}, new { @class = "btn btn-danger btn-xs" })*@
+                            @using (Ajax.BeginForm("DeleteSong", "File", new AjaxOptions() { HttpMethod = "Post" }))
+                            { 
+                                @Ajax.ActionLink("X", "DeleteSong", "File", new { @playlistId = Model.Id, @songId = file.Id },
+                                    new AjaxOptions() { HttpMethod = "Post", OnSuccess = "onSuccess"}, new { @class = "btn btn-danger btn-xs" })
+                            }
+                            
+                        </td>
+                    }
+                </tr>
+            }
+            </tbody>
+        </table>
+        <script>
+            var onSuccess = function(returnUrl) {
+                return location.reload(true);
+            }
+        </script>
+    </div>
+</div>

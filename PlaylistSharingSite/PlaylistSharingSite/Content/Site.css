@@ -22,3 +22,15 @@ select,
 textarea {
     max-width: 280px;
 }
+
+#footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    background-color: #ff0000;
+}
+
+.info {
+    background-color: #00bfff;
+    color: orange;
+}

@@ -9,11 +9,11 @@ namespace PlaylistSharingSite.Models
 {
     public class FilePath
     {
-        public int FilePathId { get; set; }
+        [Key]
+        public int Id { get; set; }
         [StringLength(255)]
         public string FileName { get; set; }
-        public FileType FileType { get; set; }
-        public int PersonID { get; set; }
+        public string FileType { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -152,7 +153,24 @@ namespace PlaylistSharingSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    FavoritePlaylists = new HashSet<Playlist>(),
+                    ProfilePicturePaths = new HashSet<FilePath>() 
+                    {
+                        new FilePath()
+                        {
+                            FileName = "defaultProfileImage.jpg",
+                            FileType = "Photo",
+                        }
+                    }
+                };
+
+                var addRoleResult = UserManager.AddToRole(user.Id, "User");
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

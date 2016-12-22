@@ -1,31 +1,53 @@
-﻿@{
-    ViewBag.Title = "Home Page";
-}
+﻿<script type="text/javascript">
+    $(function() {
+        $('.song').click(function () {
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+            $.getJSON("/Home/GetPlayerData/",
+                {},
+                function(data) {
+                    console.log(data.title);
+                    console.log(data.url);
+                    console.log(data.duration);
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+                    $("#jquery_jplayer_1").jPlayer("setMedia",
+                    {
+                        mp3: data.url,
+                        duration: data.duration,
+                        title: data.title
+
+                    }).jPlayer("play");
+                });
+
+            @*var product = {
+                title: "@Model.Title",
+                url: "@Model.Url",
+                duration: "@Model.Duration"
+            };
+            console.log(product);
+            console.log(JSON.stringify(product));
+            $.ajax({
+                type: "GET",
+                ContentType: "application/json; charset=utf-8",
+                data: JSON.stringify(product) ,
+                url: "/Home/LoadAudio/",
+                success: function(data) {
+                    console.log(data.title);
+                    console.log(data.url);
+                    console.log(data.duration);
+
+                    $("#jquery_jplayer_1").jPlayer("setMedia",
+                    {
+                        mp3: data.url,
+                        duration: data.duration,
+                        title:  data.title
+
+                    }).jPlayer("play");
+                },
+                error: function(result) {
+                    alert("Something went wrong when clicking a song!");
+                }
+            });*@
+        });
+    })
+   
+</script>

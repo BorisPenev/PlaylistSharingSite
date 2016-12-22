@@ -1,0 +1,25 @@
+﻿
+<script type="text/javascript">
+    $(function() {
+        $('.song').click(function (btn) {
+
+            console.log(btn);
+            $.getJSON("/Home/GetPlayerData",
+                {},
+                function(data) {
+                    console.log(data.title);
+                    console.log(data.url);
+                    console.log(data.duration);
+
+                    $("#jquery_jplayer_1").jPlayer("setMedia",
+                    {
+                        mp3: data.url,
+                        duration: data.duration,
+                        title: data.title
+
+                    }).jPlayer("play");
+                });
+        });
+    })
+
+</script>

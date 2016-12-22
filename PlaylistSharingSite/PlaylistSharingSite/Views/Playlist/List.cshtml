@@ -1,0 +1,51 @@
+﻿@using System.Data.Entity.Core.Metadata.Edm
+@model List<PlaylistSharingSite.Models.Playlist>
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="container">
+    
+    <div class="row">
+        @foreach (var playlist in Model)
+        {
+            <div class="col-sm-6">
+                <article>
+                    <header>
+                        <h2>
+                            <span class="glyphicon glyphicon-music"></span>
+                            @Html.ActionLink(@playlist.Title, "Details", "Playlist", new {@id = playlist.Id}, null)
+                        </h2>
+                    </header>
+                    <div>
+                        <p>
+                            Number of Songs: @playlist.AudioFiles.Count
+                        </p>
+                        <p>
+                            <span class="glyphicon glyphicon-play"></span>
+                            <button class="song" data-playlistID="@playlist.Id">Play all Songs</button>
+                            playlistID: @playlist.Id)
+                            @*@Html.ActionLink("Play all Songs", "GetPlayerData", "Home", new { @playlistId = playlist.Id }, new {@class= "btn btn-primary song" })*@
+                            @Html.Partial("_jPlayerLoadDataPartial", new { @playlistId = playlist.Id})
+                        </p>
+                    </div> 
+
+                    <footer>
+                        @*<div class="pull-left">
+                            @foreach (var tag in article.Tags)
+                            {
+                                @Html.ActionLink(tag.Name, "List", "Tag", new { @id = tag.Id }, new { @class = "btn btn-default btn-xs" })
+                            }
+                        </div>*@
+                        <small class="author pull-right">
+                            Created By: @playlist.User.FullName
+                            <p>Creation Date: @playlist.CreationDate</p>
+                        </small>
+                    </footer>
+
+                </article>
+            </div>
+        }
+    </div>
+</div>
+<hr />

@@ -10,8 +10,9 @@ namespace PlaylistSharingSite
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js",
-                        "~/bundles/jPlayer/dist/jquery.jplayer.min.js",
-                        "~/bundles/jPlayer/lib/jquery.min.js"));
+                        "~/Scripts/jquery.unobtrusive-ajax.js",
+                        "~/Scripts/jPlayer/lib/jquery.min.js",
+                        "~/Scripts/jPlayer/dist/jquery.jplayer.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -38,7 +39,7 @@ namespace PlaylistSharingSite
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css",
+                      "~/Content/Site.css",
                       "~/Content/jPlayer/css/jplayer.blue.monday.min.css",
                       "~/Content/jPlayer/image/jplayer.blue.monday.jpg",
                       "~/Content/jPlayer/image/jplayer.blue.monday.seeking.gif",
